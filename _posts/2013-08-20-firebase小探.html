@@ -1,0 +1,62 @@
+---
+layout: post
+comments: true
+title: firebase小探
+categories: []
+tags: []
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '1'
+---
+这篇文章是为了帮我自己理理思路，总结下今天四处翻看的信息。
+
+上周看到firebase之后，觉得真是一个好东西，可以做无服务器建站。今天在琢磨是不是把blog迁到jekyll上时，又想到firebase，不负责任的四处看了看。包括firebase，github page，s3，ali云。。只有firebase看的比较仔细，其他的都是一带而过。
+
+那firebase能做什么，不能做什么呢。
+
+firebase不能做的：检索。没有办法做“返回包括文字 待办 的数据“。他可以做到基于tag或者category查找数据。
+
+不适合做的：存储大文件。在SO的一个问题中，firebase的人提过，现在每一个数据最大可以10M，大于10M的，那你需要分段，或者使用S3。firebase的存储价格也高于S3，所以针对不需要实时变化的大文件，应该另觅他途。
+
+firebase最大的好处有两点：
+
+1. 不需要服务器端就可以存储数据。这点使得做app的，web application的人不再需要做服务器，维护以及最困难的“scale”。当然数据的使用也不再随心所欲，需要按照firebase定义的方式去使用数据。
+
+2. 数据实时同步在所有的client上。只要连接建立了，那么延迟就基本等于网络延迟。这点很逆天，很想当时wave做的实时更新。一个人敲一个字符，所有人都可以马上看到。
+
+当然，安全性也十分重要，这点firebase做的也不错。通过rules来控制数据的读写权限，数据存储格式等等。这样，即使客户hack了自己的客户端，他所能做的改变依然被严格控制。
+
+要想真正掌握一个东西，需要做一个项目才行。
+
+待选方案：
+
+1. 迁移o-value到firebase。
+
+或者ios上的keyvalue记事，基于firebase。
+
+2. 一直想做没做的多人创作一篇文章。
+
+3. 多人做动画？
+
+4. 基于ios的flexibleprototype的多人协作？
+
+5. 实时显示大家路径
+
+% if page.comments %
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'shuosblog'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+% endif %

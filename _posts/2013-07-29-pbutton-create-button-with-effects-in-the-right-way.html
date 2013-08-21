@@ -1,0 +1,76 @@
+---
+layout: post
+title: PButton Create button with effects in the right way
+categories:
+- iOS
+tags:
+- iOS
+- library
+- PButton
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<h2 class="section">Something not important</h2>
+The blog not updated for a while, several reasons, too busy in work, working on 2 open source projects  FlexibleView2 and PButton. They takes me some time and energy (especially the pre one) but saved much more. FlexibleVIew2 targets to provide easy frame calculation and brings an abstract layer on how we structure our view tree, will cover this project in next post. I will only focus on PButton in this one.
+<h2 class="section">Motivation</h2>
+As a dev, it was a suffer for me to create some good looking buttons, with shadows, gradient, highlight edge etc. Photoshop is out of option since that is an inefficient way, I am not a PS guru, and worse PS is not free. Inspired by one blog post (Sorry I can't find it now, will update when I get it), I decide to do it in code.
+
+In order to make the button open for future improvement and customization, I abstract the effects out, e.g, border, gradient, inner shadow, outer shadow. The button has a list for each of the state, normal, highlighted, selected. Normal is the one which active always, highlighted and selected only apply when the button is in that state. Each effect has a zIndex, which specifies the order of the effects. Higher zIndex will be draw later (covers the prior ones).
+<h2 class="section">Sample Code &amp; some explanation</h2>
+Here is the output of the sample project:
+
+<a href="http://blog.o-value.com/pbutton-create-button-with-effects-in-the-right-way/%e5%b1%8f%e5%b9%95%e5%bf%ab%e7%85%a7-2013-07-29-%e4%b8%8a%e5%8d%8812-27-52/" rel="attachment wp-att-99"><img class="alignnone size-medium wp-image-99" title="PButton example" src="http://blog.o-value.com/wordpress/wp-content/uploads/屏幕快照-2013-07-29-上午12.27.52-129x300.png" alt="" width="129" height="300" /></a>
+
+Here is the code which generates the second button:
+<pre>PButton *navigationButton = [[PButton alloc] init];
+navigationButton.frame = CGRectMake(30, 100, 100, 30);
+navigationButton.buttonBorderPath = [PPath navigationBarItemPathArrowWidth:10 rect:CGRectMake(0, 0, 100, 28) radius:5];
+[navigationButton setTitle:@"test" forState:UIControlStateNormal];
+
+UIColor *topColor = [UIColor colorWithRed:166/255.0 green:162/255.0 blue:173/255.0 alpha:1.00f];
+UIColor *bottomColor = [UIColor colorWithRed:88/255.0 green:95/255.0 blue:106/255.0 alpha:1.00f];
+UIColor *borderColor = [UIColor colorWithRed:59/255.0f green:61/255.0f blue:63/255.0f alpha:1.00f];
+[navigationButton.normalEffects addObjectsFromArray:@[
+    [PEffect border:navigationButton.buttonBorderPath.CGPath color:borderColor width:2],
+    [PEffect gradientColor:@[topColor, bottomColor] locations:nil startPoint:CGPointMake(0, 0)      endPoint:CGPointMake(0, 30)],
+    [PEffect halfHighlight],
+    [PEffect innerShadow],
+    [PEffect outerShadow],
+]];
+[navigationButton.highlightEffects addObjectsFromArray:@[
+    [PEffect gradientColor:@[[UIColor redColor], [UIColor blueColor]] locations:nil startPoint:CGPointMake(0, 0) endPoint:CGPointMake(0, 30)],
+]];</pre>
+Here is what the code does:
+
+1. First create the button with PButton, give it the frame, and set the buttonBorderPath, which is the shape of the button.
+
+2. Add the effects into normal state: border, gradient is straightforward. halfHighlight is the one which mimic ios button effect. Inner shadow can generate the shadow inside the path. Outer shadow can generate the shadow outside the path. Will talk some more later. Each of the predefined effect has a zIndex which can be overwrite.
+
+3. Add the effects into highlighted state: the gradient for example. Then when click the button, its gradient will be shown. In the example, since the gradient has same zIndex, the highlighted gradient will cover the one defined in normal.
+
+4. Add the button into view.
+
+How to achieve inner shadow:
+
+1. Create one clip path PathA which contains an outer rect and the border path.
+
+2. Clip the context use path.
+
+3. Draw the PathA with EO rule. (EvenOdd rule, in short, it will draw the point if it is contains by Odd paths, but ignore it if even.)
+
+Then the shadow leaves, the filled area been clipped.
+
+For outer shadow, similar, but clip use context with PathA with EO rule, then draw the original path with shadow.
+<h2 class="sectin">Ending</h2>
+For now, this project is too young, 1 day or 2 days. It has a lot room to improve, like:
+
+* Add more effects.
+
+* Add support for other views or controls.
+
+* Add the support for cache draw in image. (Or generate the resizable image when the app first launched).
+
+Github link <a title="PButton" href="https://github.com/shuoli84/PButton" target="_blank">PButton</a>.

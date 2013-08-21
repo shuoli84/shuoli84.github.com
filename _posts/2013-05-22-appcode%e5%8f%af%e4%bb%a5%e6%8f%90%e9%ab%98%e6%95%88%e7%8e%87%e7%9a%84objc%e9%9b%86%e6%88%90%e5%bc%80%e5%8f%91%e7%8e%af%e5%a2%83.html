@@ -1,0 +1,53 @@
+---
+layout: post
+title: AppCode可以提高效率的objc集成开发环境
+categories:
+- 用的工具
+- iOS
+tags:
+- appcode
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<img class="aligncenter size-medium sq_image" title="appcode" src="/wordpress/wp-content/uploads/logo_appcode.gif" alt="appcode" width="500" />
+
+<strong><a href="http://www.jetbrains.com/objc/">AppCode</a></strong>是JetBrains带来的obj c的集成开发环境。
+
+先说说JetBrains，JetBrains在当时做c#的时候就如雷贯耳，当时他的Resharper在c#或者.net开发语言中，静态代码分析，代码补全以及比较逆天的重构功能享有极大声誉。还有Dotpeek，我用过的最好的.net reflector，反编译出的code，基本和人写的code没啥两样。当时产品出问题，都是直接反射出来看，基本不用去看源代码。
+
+当看到JetBrains出的这个objc的ide时，延续对这家公司建立起来的信赖，在$59的时候（平时是$99，开源license免费，具体看<a href="http://www.jetbrains.com/objc/buy/index.jsp">这里</a>）买了一个personel license。网上有一个比较完整的<a href="http://codesheriff.blogspot.com/2012/02/xcode-vs-appcode.html">比较</a>，E文而且好像需要梯子。我在这里说说这一个月的体会，可能有些功能用的不多，只说说我自己喜欢的。
+<h2>优点：</h2>
+1. 与xcode无缝集成。这个是appcode最大优势之一，因为无缝集成，所以任何xcode或者appcode中做的修改，都可以在任意一个ide中直接打开。而且我一直都是双开，编辑代码，debug在appcode，拖拽storyboard在xcode。
+
+2. 自动补全。我觉得appcode这方面比xcode好太多了，他的匹配方式更加灵活，ThisIsAWord，在appcode中，可以直接键入AWord就可以了。这点在需要敲入各种定义的ENUM时十分有用，TouchUpInside就可以直接定位UIControlXXXXXXTouchUpInside。
+
+3. 代码浏览。
+<ul>
+	<li>CMD+Click就是Go to definition</li>
+	<li>类似图中在编辑器左栏中的小按钮，可以直接在overwrite的chain中跳转。<a href="http://blog.o-value.com/appcode%e5%8f%af%e4%bb%a5%e6%8f%90%e9%ab%98%e6%95%88%e7%8e%87%e7%9a%84objc%e9%9b%86%e6%88%90%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83/appcode1/" rel="attachment wp-att-29"><img class="alignnone size-medium wp-image-29" title="appcode1" src="http://blog.o-value.com/wordpress/wp-content/uploads/appcode1-300x96.png" alt="appcode screen shot 1" width="300" height="96" /></a></li>
+	<li>右键菜单中查找所有的usage。</li>
+</ul>
+4. vim。IdeaVim插件添加vim支持。
+
+5. 快速命令模式，可以用热键呼出一个输入框，里边可以输入一些菜单命令，比如rename，就是refactor中的rename。这样就不需要四处点菜单找命令了。
+
+<a href="http://blog.o-value.com/appcode%e5%8f%af%e4%bb%a5%e6%8f%90%e9%ab%98%e6%95%88%e7%8e%87%e7%9a%84objc%e9%9b%86%e6%88%90%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83/%e5%b1%8f%e5%b9%95%e5%bf%ab%e7%85%a7-2013-05-22-%e4%b8%8a%e5%8d%8812-19-04/" rel="attachment wp-att-30"><img class="alignnone size-medium wp-image-30" title="屏幕快照 2013-05-22 上午12.19.04" src="http://blog.o-value.com/wordpress/wp-content/uploads/屏幕快照-2013-05-22-上午12.19.04-300x79.png" alt="" width="300" height="79" /></a>
+
+6. 重构支持。重构的深度支持，比如最常用的重命名，类名变化也会关联文件名。不过我用的最多的就是重命名，其他的重构功能用的比较少。所以放第六个。
+
+7. 项目浏览，文件组织为真实目录，而不像xcode中是虚拟的分组。更直接一些。
+
+8. 对SCM支持更好，自动检测当前项目的SCM软件，支持git，mercurial，svn等。SCM常规操作集成到右键菜单中。
+
+9. 原生<a href="http://blog.o-value.com/kiwi%E4%B8%80%E4%B8%AAobjc-bdd%E7%9A%84%E6%B5%8B%E8%AF%95%E5%BA%93/">支持Kiwi</a>
+<h2>算不上缺点：</h2>
+1. 强烈依赖xcode，在编辑nib，model文件，设置project的属性以及针对文件设置编译选项时，必须使用xcode来做，appcode会自动调用xcode打开nib以及model文件。这个算不上缺点，因为xcode更适合做这些事情。
+
+2. 新创建类模版单一。不会向xcode中创建一个viewcontroller，那会自动添加一些代码。
+<h2>缺点：</h2>
+1. 性能在某些时候挺差的。如果项目+依赖有很多代码，appcode index以及编辑时会有卡顿。当然这个也看个人机器（我的是MPB 2010年中，10G内存)。
+<h2>总结</h2>
+个人感觉安装appcode之后，基本上马上就可以上手，学习曲线很平缓。效率显著提高，再也不会为了查某一个名字去google，键盘鼠标切换很少，浏览代码更快速。舍得花$99的同学，可以考虑入手，工欲善其事，必先利其器嘛。

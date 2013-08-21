@@ -1,0 +1,59 @@
+---
+layout: post
+title: Kiwi一个objc BDD的测试库
+categories:
+- 用的工具
+- iOS
+tags:
+- iOS
+- kiwi
+- testing
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<strong><a href="https://github.com/allending/Kiwi">Kiwi</a> </strong>是一个BDD(Behavior Driven Development 行为驱动编程)的测试框架。我本人并不是各种XX驱动编程的粉丝，所以对BDD本身没有什么言语。感兴趣的可以参考<a href="http://en.wikipedia.org/wiki/Behavior-driven_development">wiki</a>或者google之。
+
+我要说的是，Kiwi单独拿来替代OCUnit，本身已经十分诱人了，他可以：
+
+<h2 class="section">1. 创建框架清晰的测试用例</h2>
+
+SPEC_BEGIN SPEC_END起止一个完整的SPEC，一个SPEC在BDD里边代表某一个功能的描述，比如ContactSpec，关于联系人功能的描述。
+
+describe与context其实基本一样，用来分别描述某一个方面的特性。Kiwi中，describe和context是一个东西。在书写用例的时候，describe对应某一个具体功能，或者类，context则对应独立的场景。比如describe Dog, context young xxxxxx, context grownup xxxxxxxx, context old xxxxxxx。describe与context都可以嵌套。
+
+通过SPEC, describe, context，一个testcase测试的环境变得十分清楚。
+<pre class="pretty-print">SPEC_BEGIN(ContactSpec)
+    describe(@"ContactClass", ^{
+        context(@"Newly created with init", ^{
+           __block Contact* contact; 
+
+           beforeAll(^{
+               contact = [[Contact alloc] init];
+           }); 
+
+           it(@"s properties should be nil", ^{
+               [contact.name shouldBeNil];
+           }); 
+
+           it(@"s filename should be a unique one, and id should be created", ^{
+               [[contact generateFileName] shouldNotBeNil];
+               [contact.id shouldNotBeNil];
+           });
+    });
+SPEC_END</pre>
+<h2 class="section">2. 用例边写更加易读</h2>
+从it(@" should be a unique value", {block})可见一斑，Kiwi写出的用例模糊点看就是英文句子。有比较高的可读性。曾经的断言AssertEqual等变成了value shouldNotBeNil，[[value should] equal:value2]。
+
+<h2 class="section">3. 基于Block</h2>
+所有的事情做起来都是声明式的。需要在测试前执行一段代码？beforeEach(block)，beforeAll(block)，需要做回收工作？afterEach(block), afterAll(block)。没有继承，没有重载，需要的时候声明一下。这是我喜欢的方式。
+
+<h2 class="section">4. <a href="http://blog.o-value.com/appcode可以提高效率的objc集成开发环境/">appcode</a>原生支持</h2>
+如果你像我一样再用appcode，那么用Kiwi比OCUnit还要方便。。在某一个用例代码处右键菜单，可以直接运行这个SPEC。
+
+<a href="http://blog.o-value.com/?attachment_id=58" rel="attachment wp-att-58"><img class="alignnone size-medium wp-image-58" title="Kiwi And AppCode" src="http://blog.o-value.com/wordpress/wp-content/uploads/屏幕快照-2013-05-27-下午10.03.27-300x108.png" alt="" width="300" height="108" /></a>
+
+<h2 class="section">其他</h2>
+Kiwi使用需要一些简单的<a href="https://github.com/allending/Kiwi/wiki/Up-and-Running-with-CocoaPods">安装</a>步骤。

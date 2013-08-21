@@ -1,0 +1,34 @@
+---
+layout: post
+title: Use cocoapods to manage the iOS project dependancies
+categories:
+- iOS
+tags:
+- cocoapods
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+<strong><a href="http://cocoapods.org/">Cocoapods</a></strong> is a iOS library dependancy management tool.
+
+<img class="aligncenter size-medium sq_image" title="cocoapods" src="https://si0.twimg.com/profile_images/1841283597/logo.png" alt="cocoapods" width="320" />
+
+I''ve been in the ios world for 3 months or so, one of the most useful util I found is "<a href="http://cocoapods.org">cocoa pods</a>". It solved the pain of manual manage all the dependancies of the ios library.
+
+You may already know that develop ios application rely on open source library heavily, there are so many common problems that other smart developers already solved, and utilize their work, you can save tons of hours of development, testing. Before, add one lib into your project, you have to either manual copy those files or drop the project as a xcode subproject, which is not a decant way in many aspects:
+
+* manual drop means you loose the SCM support, that means from the point, it is very hard to get bug fixes and features. Also it encourage you to tweet the library code, and it is hard to pull the patch to the original repo, which means you are on your own in future.
+
+* your code and the library code mixed together, which just gives me bad feel.
+
+* some library''s compiling flag is different with your project, simple drop files into the project is not enough, you need to tweet the compile flag for each files in worst case.
+
+Then comes the world saver, <strong>cocoapods</strong>. It makes the dependency management so easily, just add a Podfile into your project root, add the libraries, then call pod install. Rest of the work you can leave to cocoapods, it will clone the libraries with git, create a stand alone project Pods and create a workspace file for you. Later on, you should open the workspace file. Then just import the header file of the library and you can use it. Very decent!
+
+<strong>Cocoapods</strong> not only support git based repo, but also you can create a local pod from any directory, but there are some more work todo, you need to create a podspec file to express which files should be included in the pods follow the <a href="https://github.com/CocoaPods/CocoaPods/wiki/The-podspec-format">link</a>.
+
+All supporteds pods can be viewed by "pod list". I frequently run this and redirect it to a file, then search it to check whether a specific lib is supported.
+
+<a href="https://www.cocoacontrols.com/cocoapods">Here</a> is a pod catalog, which you may interested go through it. One hour you spend here may saves hundreds in future :).

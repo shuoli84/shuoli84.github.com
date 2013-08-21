@@ -1,0 +1,50 @@
+---
+layout: post
+title: BlocksKit让block更普及
+categories:
+- iOS
+tags:
+- blockskit
+- iOS
+- library
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _css_code: h2 {color:blue; font-size:20}
+---
+<h2 class="section">介绍</h2>
+block出现之后，apple的library也在渐渐的，由少到多的支持block。<strong>BlocksKit(<a href="https://github.com/pandamonia/BlocksKit">github</a>)</strong>是一个library，他给一些类带来了更好的block支持。主要功能有下面三个方面：
+
+* 通过block传入事件处理函数
+
+* 创建动态代理，传入block给想要实现的方法。
+
+* 在很多基础的类上增加额外的方法。
+<h2 class="section">通过block传入事件处理函数</h2>
+拿UIControl打比方，要想处理一个事件:
+
+以前:
+
+需要通过addTarget:(id)action:(selector)forControlEvents:(UIControlEvents)将某一个对象的某一个selector传入，一般的做法是在viewcontroller里定义一个方法专门处理某一个按钮的点击事件。
+
+现在:
+
+通过addEventHandler:(BLSenderBlock)forControlEvents:(UIControlEvent)将一个block注册上去，不需要单独定义方法。
+<h2 class="section">创建动态代理</h2>
+代理是objective c里常用的模式，主要用来做逻辑切分，一个类做一类事情，让代码的耦合度减少。但他不方便的地方在于，要创建一个代理，就要定义一个类，声明这个类遵循那些接口，然后实现这些接口对应的函数。动态代理(Dynamic delegate)则让我们能够在code里，on the fly的创建这样一个代理，通过block定义要实现的方法。例子看<a href="http://pandamonia.github.io/BlocksKit/Documentation/Classes/A2DynamicDelegate.html">这里</a>。
+<pre>A2DynamicDelegate *dd = alertView.dynamicDelegate;</pre>
+<pre> [dd implementMethod: @selector(alertViewShouldEnableFirstOtherButton:) withBlock: ^(UIAlertView *alertView) {
+    NSLog(@"Message: %@", alertView.message);
+    return YES;
+}];</pre>
+<pre>alertView.delegate = dd;</pre>
+<h2 class="section">基础类上增加新方法</h2>
+比如在NSArray上增加了函式编程的each, map, reduce等。
+
+详细文档在<a href="http://pandamonia.github.io/BlocksKit/Documentation/">这里</a>。
+<h2 class="section">总结</h2>
+从第一刻看到BlocksKit，我就把他作为每一个iOS项目中必不可少的基础类库。我个人使用最多的功能就是通过block来传入事件处理方法。对于像我这样希望将相关的code放到一起的程序员，<strong>BlocksKit</strong>绝对是福音。
+
+&nbsp;
