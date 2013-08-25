@@ -66,8 +66,3 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block;
 }
-
-/* line 8, ../_sass/screen.scss */
-body {
-  background: yellow;
-}
